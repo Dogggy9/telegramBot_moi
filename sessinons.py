@@ -6,10 +6,10 @@ from parserService import ParserService
 
 
 class Session:
-    def __init__(self, bot: telebot, anekdot_service: ParserService):
+    def __init__(self, bot: telebot):  # , anekdot_service: ParserService):
         self.users = {}
         self.bot = bot
-        self.weather_service = anekdot_service
+        # self.anekdot_service = anekdot_service
 
     def save(self):
         with open('../data.pkl', 'wb') as outfile:

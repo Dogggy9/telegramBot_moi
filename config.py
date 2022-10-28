@@ -1,2 +1,5 @@
+
 TOKEN = '5721389141:AAE3hEZfKPk5NsfbG-oDnIQF4XDYLH41IM8'
-URL = 'https://www.anekdot.ru/last/good'
+WEBHOOK_PORT = 5000
+WEBHOOK_HOST = '127.0.0.1'
+WEBHOOK_URL = 'https://3240-188-170-78-81.eu.ngrok.io'
