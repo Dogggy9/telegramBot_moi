@@ -7,9 +7,9 @@ class AnekdotKeyboards:
     def get_base_keyboard(cls):
         keyboard = types.InlineKeyboardMarkup()
         item_btn_1 = types.InlineKeyboardButton('Анекдот', callback_data=Callbacks.GET_ANEKDOT)
-        item_btn_2 = types.InlineKeyboardButton('Назад', callback_data=Callbacks.BACK)
-        # item_btn_3 = types.InlineKeyboardButton('About_author', callback_data=Callbacks.ABOUT_AUTHOR)
-        keyboard.add(item_btn_1, item_btn_2)
+        item_btn_2 = types.InlineKeyboardButton('История', callback_data=Callbacks.GET_HISTORY)
+        item_btn_n = types.InlineKeyboardButton('Назад', callback_data=Callbacks.BACK)
+        keyboard.add(item_btn_1, item_btn_2, item_btn_n)
         return keyboard
 
     @classmethod

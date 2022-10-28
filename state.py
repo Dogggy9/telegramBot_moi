@@ -77,7 +77,7 @@ class AnekdodInfoState(State):
             self.contex.users[event.from_user.id].state = self.name
             # user_city = self.contex.users[event.from_user.id].city
             self.contex.bot.send_message(event.message.chat.id,
-                                         self.contex.weather_service.get_about_anekdot(),
+                                         self.contex.weather_service.get_about_hisrory(),
                                          reply_markup=AnekdotKeyboards.get_back_keyboard())
 
             self.contex.bot.delete_message(chat_id=event.message.chat.id, message_id=event.message.message_id)
