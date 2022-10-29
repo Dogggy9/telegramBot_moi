@@ -65,8 +65,7 @@ def create_state_for_user(context: Session, id: int):
 def start(message: Message):
     user_id = message.from_user.id
     if user_id not in read_json():
-        write_json(message.json)
-        # session.users[user_id] = User(user_id, BaseState(session))
+        session.users[user_id] = User(user_id, BaseState(session))
 
     state = create_state_for_user(session, user_id)
     state.handle(message)

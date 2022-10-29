@@ -16,6 +16,7 @@ class AnekdotKeyboards:
     @classmethod
     def get_back_keyboard(cls):
         inline_keyboard = types.InlineKeyboardMarkup()
+        item_btn_0 = types.InlineKeyboardButton('еще', callback_data=Callbacks.MORE)
         item_btn_1 = types.InlineKeyboardButton('Назад', callback_data=Callbacks.BACK)
-        inline_keyboard.row(item_btn_1)
+        inline_keyboard.row(item_btn_0, item_btn_1)
         return inline_keyboard
