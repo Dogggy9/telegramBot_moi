@@ -1,0 +1,25 @@
+{
+  "message_id": 1358,
+  "from": {
+    "id": 1749655472,
+    "is_bot": false,
+    "first_name": "¬€чеслав",
+    "last_name": "јнаньин",
+    "language_code": "ru"
+  },
+  "chat": {
+    "id": 1749655472,
+    "first_name": "¬€чеслав",
+    "last_name": "јнаньин",
+    "type": "private"
+  },
+  "date": 1667071722,
+  "text": "/start",
+  "entities": [
+    {
+      "offset": 0,
+      "length": 6,
+      "type": "bot_command"
+    }
+  ]
+}
