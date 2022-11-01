@@ -1,34 +1,26 @@
 import importlib
 
-import requests
 import telebot
-from telebot.types import CallbackQuery, Message
-from config import *
-# from parserService import ParserService
+from config import TOKEN, WEBHOOK_PORT, WEBHOOK_HOST, WEBHOOK_URL
+from parserService import ParserService
 from getAbout import GetAbout
 from bot_callbacks import Callbacks
-from keyboards import AnekdotKeyboards
-from sessinons import Session
 from users import User
-from states import *
+from states import State, BaseState
+from sessinons import Session
 import flask
-import json
-import logging
 import url
-import sys
 
 bot = telebot.TeleBot(TOKEN)
 get_about = GetAbout()
 anekdots = []
 
-
-
 # logger = telebot.logger
 # telebot.logger.setLevel(logging.DEBUG)
+parser = ParserService()
 app = flask.Flask(__name__)
-session = Session(bot)
+session = Session(bot, parser)
 session.load()
-
 
 # anekdot = get_about.get_about_anekdot()
 # # anekdot = anekdots.pop(0)
@@ -37,25 +29,26 @@ session.load()
 
 URL = 'https://api.telegram.org/bot5721389141:AAE3hEZfKPk5NsfbG-oDnIQF4XDYLH41IM8/'
 
-def write_json(data, filename='answer.json'):
-    with open(filename, 'a') as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
 
-def read_json():
-    with open('answer.json', 'r') as json_file:
-        users = json.load(json_file)
-        return users
-
-def main():
-    r = requests.get(URL + 'getMe')
-    write_json(r.json())
+# def write_json(data, filename='answer.json'):
+#     with open(filename, 'a') as f:
+#         json.dump(data, f, indent=2, ensure_ascii=False)
+#
+# def read_json():
+#     with open('answer.json', 'r') as json_file:
+#         users = json.load(json_file)
+#         return users
+#
+# def main():
+#     r = requests.get(URL + 'getMe')
+#     write_json(r.json())
 
 # main()
 
 def create_state_for_user(context: Session, id: int):
     args = ()
     kw = {"contex": session}
-    module = importlib.import_module('states.state')
+    module = importlib.import_module('states')
     klass = getattr(module, context.users[id].state)
     state = klass(*args, **kw)
     return state
@@ -64,14 +57,18 @@ def create_state_for_user(context: Session, id: int):
 @bot.message_handler(commands=['start'])
 def start(message: Message):
     user_id = message.from_user.id
-    if user_id not in read_json():
+
+    if user_id not in session.users:
         session.users[user_id] = User(user_id, BaseState(session))
 
     state = create_state_for_user(session, user_id)
     state.handle(message)
+    # bot.delete_message(chat_id=message.chat.id, message_id=message.id)
+
     # keyboard = AnekdotKeyboards.get_base_keyboard()
     # bot.send_message(message.chat.id, 'Выбери', reply_markup=keyboard)
     # write_json(message.json)
+
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message: Message):
@@ -103,6 +100,7 @@ def handle(call: CallbackQuery):
 
     bot.answer_callback_query(call.id)
 
+
 # Process webhook calls
 @app.route('/' + TOKEN, methods=['POST'])
 def webhook():
@@ -119,6 +117,6 @@ def webhook():
 
 if __name__ == '__main__':
     bot.remove_webhook()
-    # bot.infinity_polling()
-    bot.set_webhook(WEBHOOK_URL + "/" + TOKEN)
-    app.run(host=WEBHOOK_HOST, port=WEBHOOK_PORT)
+    bot.infinity_polling()
+    # bot.set_webhook(WEBHOOK_URL + "/" + TOKEN)
+    # app.run(host=WEBHOOK_HOST, port=WEBHOOK_PORT)

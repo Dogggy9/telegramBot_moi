@@ -1,5 +1,7 @@
 import url
 from parserService import ParserService
+
+
 class GetAbout:
     def __init__(self):
         self.anekdots = []
@@ -8,7 +10,6 @@ class GetAbout:
         self.old_history = []
         self.aphorism = []
         self.old_aphorism = []
-
 
     def get_about_anekdot(self, url: str):
         if not self.anekdots:
@@ -42,6 +43,7 @@ class GetAbout:
             self.aphorism = self.old_aphorism
             self.old_aphorism = []
         return aphorism, amountAp
+
 
 if __name__ == '__main__':
     g = GetAbout()
